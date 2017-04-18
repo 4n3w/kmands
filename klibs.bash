@@ -9,5 +9,9 @@ check_dependencies(){
      echo "Please Install: kubectl" >&2
      return 1
     fi
+    if [[ ! -x "$(which gshuf 2>/dev/null)" ]]; then
+     echo "Please Install: kubectl" >&2
+     return 1
+    fi
 }
 
