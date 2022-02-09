@@ -6,7 +6,7 @@ proxy_service() {
   local service
   local port
 
-  check_dependencies
+  check_dependencies "kubectl fzf gshuf"
 
   service=$( kubectl get service -o name | fzf -0 -1 --tac --prompt "type to find the service to proxy> " )
   port=$( kubectl describe service ${service##service/} | grep "Port:" | awk '{print $2" "$3}' | fzf -0 -1 --tac --prompt "select the service port to proxy> " )

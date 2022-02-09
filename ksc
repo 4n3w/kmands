@@ -7,7 +7,7 @@ switch_cluster() {
   local cluster
   local selected
 
-  check_dependencies
+  check_dependencies "fzf kubectl awk"
 
   current="$(kubectl config current-context)"
   cluster="$(kubectl config get-contexts "$current" | awk "/$current/ {print \$2}")"

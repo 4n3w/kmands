@@ -5,7 +5,7 @@ source klibs.bash
 get_pods_in_namespace() {
   local selected
 
-  check_dependencies
+  check_dependencies "kubectl fzf"
 
   selected=$( kubectl get pods -o name | fzf -0 -1 --tac --prompt "type to find the pod> ")
 
