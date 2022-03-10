@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source klibs.bash
+source klibs
 
 get_pods_in_namespace() {
   local selected

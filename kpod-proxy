@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source klibs.bash
+source klibs
 
 proxy_service() {
   local service

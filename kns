@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source klibs.bash
+source klibs
 
 kns() {
   local current
@@ -19,7 +19,7 @@ kns() {
   selected=$( (kubectl get namespaces -o name | sed "s-namespaces/--" ) | fzf -0 -1 --tac --prompt "Current Namespace $namespace> ")
   if [[ ! -z "$selected" ]]; then
     kubectl config set-context "$current" "--namespace=${selected##namespace/}"
-    echo "Set \"$selected\"."
+    printf "Set \"$selected\"."
   fi
 }
 
