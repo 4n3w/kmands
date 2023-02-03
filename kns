@@ -2,14 +2,14 @@
 
 source klibs
 
+current="$(kubectl config current-context)"
+
 kns() {
-  local current
   local namespace
   local selected
 
   check_dependencies "kubectl awk fzf"
 
-  current="$(kubectl config current-context)"
   namespace="$(kubectl config get-contexts "$current" | awk "/$current/ {print \$5}")"
 
   if [[ -z "$namespace" ]]; then
@@ -17,10 +17,21 @@ kns() {
   fi
 
   selected=$( (kubectl get namespaces -o name | sed "s-namespaces/--" ) | fzf -0 -1 --tac --prompt "Current Namespace $namespace> ")
+
   if [[ ! -z "$selected" ]]; then
-    kubectl config set-context "$current" "--namespace=${selected##namespace/}"
-    printf "Set \"$selected\"."
+      set_namespace $selected
   fi
 }
 
-kns
+set_namespace(){
+    local selected_namespace
+    selected_namespace=$1
+    kubectl config set-context "$current" "--namespace=${selected_namespace##namespace/}"
+    printf "Set \"$selected_namespace\"."
+}
+
+if [ -z "$1" ]; then
+    kns
+else
+    set_namespace $1
+fi

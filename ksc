@@ -14,9 +14,19 @@ switch_cluster() {
   selected=$(kubectl config get-contexts -o name | fzf -0 -1 --tac --prompt "Current cluster: $current> ")
 
   if [[ ! -z "$selected" ]]; then
-    kubectl config use-context "$selected"
-    echo "Set Cluster Context to \"$selected\"."
+      set_cluster $selected
   fi
 }
 
-switch_cluster
+set_cluster(){
+    local selected_cluster
+    selected_cluster=$1
+    kubectl config use-context "$selected_cluster"
+    echo "Set Cluster Context to \"$selected_cluster\"."
+}
+
+if [ -z "$1" ]; then
+    switch_cluster
+else
+    set_cluster $1
+fi
